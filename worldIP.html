@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Regions Connected to Internet</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/>
+    <!--Script CDNs -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="liquidFillGauge.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <script src="http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+    <script src="yourlatlongfile.js"></script> <!--your lat long file -->
+</head>
+<body>
+
+    <style>
+        body, html{
+            height:100%;
+            width:100%;
+            margin:0;
+        }
+
+        #count{
+            height:100%;
+            width:10%;
+            float:right;
+            position: relative;
+            z-index: 100;
+            background: white;
+        }
+    </style>
+    
+	<div id="count">
+		<center>
+			<h1 style="font-size:12px;padding-bottom:30px"><b>GEOGRAPHICAL HEATMAP OF REGIONS CONNECTED TO INTERNET</b></h1>
+			<h2 style="padding:0px">Percentage of people connected to the Internet.</h2>
+			<svg id="percent" width="65%" height="250" style="padding-top:10px;"></svg>
+			<p><b>A rough estimate of the coverage Internet connectivity. Made using D3.js, Leaflet and OSM. </a></b></p>
+			<p style="font-size:11px;">This site or product includes IP2Location LITE data available from <a href="http://lite.ip2location.com">http://lite.ip2location.com</a>.</p>
+		</center>
+
+		<script>
+			    var gauge1 = loadLiquidFillGauge("percent", 46.2);
+			    var config1 = liquidFillGaugeDefaultSettings();
+			    config1.circleThickness = 0.2;
+			    config1.textVertPosition = 0.2;
+			    config1.waveAnimateTime = 1000;
+		</script>
+
+	</div>
+
+    <div id="map" style="width: 90%; height: 100%"></div>
+
+    <script>
+
+    	var layer_1 = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+    		{ attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>' });  
+    	var map = L.map('map', { scrollWheelZoom: true, 
+    									center: [22.228, 10.085], 
+    									zoom: 3 });  
+
+    	map.addLayer(layer_1); 
+        
+        var heat = L.heatLayer(yourlatlongs,{
+            radius: 10,
+            blur: 20, 
+            maxZoom: 2,
+        }).addTo(map);
+				
+    </script>
+</body>
+</html>
